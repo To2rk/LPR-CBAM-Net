@@ -88,7 +88,8 @@ if __name__ == "__main__":
     # resized_plate('data/images/test/', 'data/images/val/', 600, 800)
 
     # 使用opencv压缩图片
-    # compress = Compress_img('data/plate/vertical/img_w/', '/workspace/data/plate/vertical/img/')
-    # compress.compress_img_CV(compress_rate=0.25)
-
-    divide_sets('data/plate/vertical/xml/', 'data/plate/vertical/')
+    compress = Compress_img('data/plate/all_images/', 'data/plate/exp1/img/')
+    compress.compress_img_CV(compress_rate=0.25)
+    
+    # 随机切分数据集，训练集：验证集 = 9：1
+    divide_sets('data/plate/all_xml/', 'data/plate/exp1/txt/')

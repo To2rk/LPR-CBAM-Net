@@ -1,6 +1,6 @@
 #!/bin/bash
 
-img_path="data/plate/vertical/img/"
+img_path="data/plate/exp1/img/"
 from_path="data/plate/all_xml/"
 target_path="data/plate/vertical/xml/"
 file=`ls ${img_path}`

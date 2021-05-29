@@ -112,7 +112,7 @@ def detect(opt):
                         c = int(cls)  # integer class
                         if opt.save_crop:
                             crop_img = save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
-                            label = get_label('ER/model.pth', crop_img)
+                            label = get_label('weights/char_rec.pth', crop_img)
 
                         plot_one_box(xyxy, im0, label=label, color=colors(c, True), line_thickness=opt.line_thickness)
 

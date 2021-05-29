@@ -22,8 +22,8 @@ def convert(size, box):
     return (x, y, w, h)
 
 def convert_annotation(image_id):
-    in_file = open('data/plate/vertical/xml/%s.xml' % (image_id))
-    out_file = open('data/plate/vertical/labels/%s.txt' % (image_id), 'w')
+    in_file = open('data/plate/exp1/xml/%s.xml' % (image_id))               # 改动一，xml文件存储路径
+    out_file = open('data/plate/exp1/label/%s.txt' % (image_id), 'w')       # 改动二，label文件存储路径
     tree = ET.parse(in_file)
     root = tree.getroot()
     size = root.find('size')
@@ -43,9 +43,9 @@ def convert_annotation(image_id):
 
 for image_set in sets:
 
-    image_ids = open('data/plate/vertical/txt/%s.txt' % (image_set)).read().strip().split()
-    image_list_file = open('data/plate/vertical/images_%s.txt' % (image_set), 'w')
-    labels_list_file=open('data/plate/vertical/labels_%s.txt'%(image_set),'w')
+    image_ids = open('data/plate/exp1/txt/%s.txt' % (image_set)).read().strip().split()     # 改动三
+    image_list_file = open('data/plate/exp1/images_%s.txt' % (image_set), 'w')              # 改动四
+    labels_list_file=open('data/plate/exp1/labels_%s.txt'%(image_set),'w')                  # 改动五
     for image_id in image_ids:
         image_list_file.write('%s.jpg\n' % (image_id))
         labels_list_file.write('%s.txt\n'%(image_id))
@@ -71,7 +71,7 @@ def copy_file(new_path,path_txt,search_path):
 
 
 #按照划分好的训练文件的路径搜索目标，并将其复制到yolo格式下的新路径
-copy_file('data/exp/images/train/','data/plate/vertical/images_train.txt','data/plate/vertical/img/')
-copy_file('data/exp/images/val/','data/plate/vertical/images_trainval.txt','data/plate/vertical/img/')
-copy_file('data/exp/labels/train/','data/plate/vertical/labels_train.txt','data/plate/vertical/labels/')
-copy_file('data/exp/labels/val/','data/plate/vertical/labels_trainval.txt','data/plate/vertical/labels/')
+copy_file('data/exp1/images/train/','data/plate/exp1/images_train.txt','data/plate/exp1/img/')       # 改动六
+copy_file('data/exp1/images/val/','data/plate/exp1/images_trainval.txt','data/plate/exp1/img/')      # 改动七
+copy_file('data/exp1/labels/train/','data/plate/exp1/labels_train.txt','data/plate/exp1/label/')    # 改动八
+copy_file('data/exp1/labels/val/','data/plate/exp1/labels_trainval.txt','data/plate/exp1/label/')   # 改动九
