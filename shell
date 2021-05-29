@@ -10,3 +10,6 @@ python3.8 detect.py --weights "runs/train/exp4/weights/best.pt" --source "data/i
 
 # 视频检测
 python3.8 detect.py --weights "runs/train/exp4/weights/best.pt" --source "data/video/IMG_0366.mp4" --save-crop
+
+
+
