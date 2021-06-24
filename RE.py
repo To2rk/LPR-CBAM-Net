@@ -13,7 +13,7 @@ class Net(nn.Module):
         # 第一层神经网络
         # nn.Sequential: 将里面的模块依次加入到神经网络中
         self.layer1 = nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=3, padding=1), # 3通道变成16通道，图片大小：44*140
+            nn.Conv2d(1, 16, kernel_size=3, padding=1), # 3通道变成16通道，图片大小：44*140
             nn.BatchNorm2d(16),
             nn.ReLU(),
             nn.MaxPool2d(2)                             # 图片大小：22*70
@@ -88,9 +88,19 @@ net = Net()
 plate_list = list('0123456789A')
 plate_length = 6
 
+
+# 图像处理
+def pre_img(img):
+    resize = cv2.resize(img, (140, 44))
+    gray = cv2.cvtColor(resize,cv2.COLOR_BGR2GRAY)
+    blur = cv2.GaussianBlur(gray,(1,1),0)  #(3,3)为高斯半径
+    _, binary = cv2.threshold(blur, 120, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+    return binary
+
 def get_label(model_path, crop_img):
     
-    crop_img = cv2.resize(crop_img, (140, 44))
+    img_bin = pre_img(crop_img)
 
     if os.path.exists(model_path):
         checkpoint = torch.load(model_path)
@@ -104,8 +114,8 @@ def get_label(model_path, crop_img):
         return vec2text(outputs)
 
     transform = transforms.Compose([transforms.ToTensor()]) 
-    vil_data = CaptchaData(crop_img, transform=transform)
-    vil_data_loader = DataLoader(vil_data, batch_size=1, num_workers=0, shuffle=False)
+    vil_data = CaptchaData(img_bin, transform=transform)
+    vil_data_loader = DataLoader(vil_data, batch_size=1, num_workers=4, shuffle=False)
 
     for img in vil_data_loader:
         pre = predict(img)

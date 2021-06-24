@@ -1,12 +1,15 @@
 nvidia-docker run -itd --init --gpus all --volume="/home/sakura/文档/GitHub/Yolov5-ER:/workspace" -p 2443:22 ultralytics/yolov5:v2 /start.sh
 
+# 训练
+
+python3.8 train.py --weights "" --cfg models/yolov5s.yaml --data data/exp1/exp1.yaml --batch-size 6 --epochs 5000 --workers 2
 
 
 python3.8 train.py --weights "" --cfg models/yolov5s.yaml --data data/ER/ER.yaml --batch-size 6 --epochs 20
 
 python3.8 train.py --weights "runs/train/exp4/weights/best.pt" --data data/ER/ER.yaml --batch-size 6
 
-python3.8 detect-m.py --weights runs/train/exp11/weights/best.pt --source data/plate/all_images --save-crop
+python3.8 detect-m.py --weights weights/weights/best.pt --source /workspace/data/plate/06.22.add/ --save-crop
 
 # 视频检测
 python3.8 detect.py --weights "runs/train/exp4/weights/best.pt" --source "data/video/IMG_0366.mp4" --save-crop
@@ -79,8 +82,6 @@ i=1; for x in *; do mv $x $i.jpg; let i=i+1; done
 5s: 实时
 
 python3.8 train.py --weights "" --cfg models/yolov5s.yaml --data data/exp1/exp1.yaml --batch-size 6 --epochs 5000 --workers 4
-
-
 
 
 5.29
