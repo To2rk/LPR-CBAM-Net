@@ -14,6 +14,7 @@ python3.8 detect-m.py --weights weights/weights/best.pt --source /workspace/data
 # 视频检测
 python3.8 detect.py --weights "runs/train/exp4/weights/best.pt" --source "data/video/IMG_0366.mp4" --save-crop
 
+python3.8 detect.py --weights "weights/weights/best.pt" --source "data/videos/3.mp4" --save-crop
 
 
 

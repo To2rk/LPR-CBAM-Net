@@ -112,6 +112,19 @@ def detect(opt):
                         c = int(cls)  # integer class
                         if opt.save_crop:
                             crop_img = save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
+                            
+                            m1 = int(xyxy[0, 1])
+                            m2 = int(xyxy[0, 3])
+                            m3 = int(xyxy[0, 0])
+                            m4 = int(xyxy[0, 2])
+
+                            print("m1: ".format(m1))
+                            print("m2: ".format(m2))
+                            print("m3: ".format(m3))
+                            print("m4: ".format(m4))
+
+                            print("4545454545")
+
                             label = get_label('weights/trained_model-3.pkl', crop_img)
 
                         plot_one_box(xyxy, im0, label=label, color=colors(c, True), line_thickness=opt.line_thickness)
