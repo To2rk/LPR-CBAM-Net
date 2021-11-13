@@ -20,7 +20,6 @@ except ImportError:
 
 WANDB_ARTIFACT_PREFIX = 'wandb-artifact://'
 
-
 def remove_prefix(from_string, prefix=WANDB_ARTIFACT_PREFIX):
     return from_string[len(prefix):]
 
@@ -103,7 +102,7 @@ class WandbLogger():
                 model_artifact_name = WANDB_ARTIFACT_PREFIX + model_artifact_name
                 assert wandb, 'install wandb to resume wandb runs'
                 # Resume wandb-artifact:// runs here| workaround for not overwriting wandb.config
-                self.wandb_run = wandb.init(id=run_id, project=project, entity=entity, resume='allow')
+                self.wandb_run = wandb.init(id=run_id, project=project, entity="torrk", resume='allow')
                 opt.resume = model_artifact_name
         elif self.wandb:
             self.wandb_run = wandb.init(config=opt,
