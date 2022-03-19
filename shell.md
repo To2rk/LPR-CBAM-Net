@@ -3,17 +3,18 @@ nvidia-docker run -itd --init --gpus all --volume="/home/sakura/文档/GitHub/Yo
 # 训练
 
 python3 train.py --weights "" --cfg models/yolov5s.yaml --data data/exp1/exp1.yaml --batch-size 6 --epochs 5000 --workers 2
-python3 train.py --weights "" --data data/YOLO_CCPD/YOLO_CCPD.yaml --batch-size 24 --epochs 50 --workers 12 
+python train.py --weights /home/cuckoo/Public/WDisk/Yolov5-ER/runs/train/exp39/weights/last.pt --cfg models/yolov5s.yaml --data data/YOLO_CCPD/ccpd_base/ccpd_base.yaml --batch-size 24 --epochs 20 --workers 6
+python train.py --weights /home/cuckoo/Public/WDisk/Yolov5-ER/yolov5s.pt --cfg models/yolov5s.yaml --data data/YOLO_CCPD/ccpd_base/ccpd_base.yaml --batch-size 24 --epochs 100 --workers 6
 
 
 python3 train.py --data data/ER/ER.yaml --batch-size 6 --epochs 20
 
 python3.8 train.py --weights "runs/train/exp4/weights/best.pt" --data data/ER/ER.yaml --batch-size 6
 
-python3.8 detect-m.py --weights weights/weights/best.pt --source /workspace/data/plate/06.22.add/ --save-crop
+python3 detect-m-copy.py --weights /home/cuckoo/Public/WDisk/Yolov5-ER/runs/train/exp35/weights/best.pt --source /home/cuckoo/Public/WDisk/Yolov5-ER/data/YOLO_CCPD/ccpd_base/images/val/ --save-crop
 
 # 视频检测
-python3.8 detect.py --weights "runs/train/exp4/weights/best.pt" --source "data/video/IMG_0366.mp4" --save-crop
+python detect.py --weights "/home/cuckoo/Public/WDisk/Yolov5-ER/runs/train/exp35/weights/best.pt" --source "/home/cuckoo/Public/WDisk/Yolov5-ER/data/YOLO_CCPD/ccpd_base/images/val/" --save-crop
 
 python3.8 detect.py --weights "weights/weights/best.pt" --source "data/videos/3.mp4" --save-crop
 
@@ -94,6 +95,46 @@ python3.8 train.py --weights "" --cfg models/yolov5s.yaml --data data/exp1/exp1.
 - [ ] 使用CNN模型进行训练
 
 不需要区分分辨率，直接使用全部图片进行分析
+
+
+
+
+wandb:         train/obj_loss █▃▂▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:           val/box_loss █▅▄▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:           val/cls_loss ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:           val/obj_loss █▄▃▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                  x/lr0 ▂▅███▇▇▇▆▆▅▅▄▃▃▂▂▂▁▁
+wandb:                  x/lr1 ▂▅███▇▇▇▆▆▅▅▄▃▃▂▂▂▁▁
+wandb:                  x/lr2 █▅▂▂▂▂▂▂▂▂▁▁▁▁▁▁▁▁▁▁
+wandb:
+wandb: Run summary:
+wandb:        metrics/mAP_0.5 0.9929
+wandb:   metrics/mAP_0.5:0.95 0.89977
+wandb:      metrics/precision 0.99379
+wandb:         metrics/recall 0.99558
+wandb:         train/box_loss 0.01163
+wandb:         train/cls_loss 0.0
+wandb:         train/obj_loss 0.00362
+wandb:           val/box_loss 0.0091
+wandb:           val/cls_loss 0.0
+wandb:           val/obj_loss 0.00271
+wandb:                  x/lr0 0.0022
+wandb:                  x/lr1 0.0022
+wandb:                  x/lr2 0.0022
+wandb:
+wandb: Synced 6 W&B file(s), 337 media file(s), 1 artifact file(s) and 0 other file(s)
+wandb: Synced exp26: https://wandb.ai/torrk/YOLOv5/runs/3guw90yj
+wandb: Find logs at: ./wandb/run-20211114_173832-3guw90yj/logs/debug.log
+wandb:
+
+
+
+
+## 11月16日
+
+随机移动指定数量的文件到指定目录
+
+shuf -n 10 -e * | xargs -i mv {} path-to-new-folder
 
 
 

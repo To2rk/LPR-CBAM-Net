@@ -13,7 +13,7 @@ from utils.general import check_img_size, check_requirements, check_imshow, non_
 from utils.plots import colors, plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
-from Mutil_CNN import get_label
+from mobilenetv3 import get_label
 
 @torch.no_grad()
 def detect(opt):
@@ -40,10 +40,10 @@ def detect(opt):
         model.half()  # to FP16
 
     # Second-stage classifier
-    classify = False
+    classify = True
     if classify:
         modelc = load_classifier(name='resnet101', n=2)  # initialize
-        modelc.load_state_dict(torch.load('weights/resnet101.pt', map_location=device)['model']).to(device).eval()
+        modelc.load_state_dict(torch.load('/home/cuckoo/.cache/torch/hub/checkpoints/resnet101-63fe2227.pth', map_location=device)['model']).to(device).eval()
 
     # Set Dataloader
     vid_path, vid_writer = None, None
@@ -112,7 +112,7 @@ def detect(opt):
                         c = int(cls)  # integer class
                         if opt.save_crop:
                             crop_img = save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
-                            label = get_label('weights/char_rec-binary.pth', crop_img)
+                            label = get_label('weights/epoch194.pkl', crop_img)
 
                         plot_one_box(xyxy, im0, label=label, color=colors(c, True), line_thickness=opt.line_thickness)
 
