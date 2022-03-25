@@ -26,16 +26,7 @@
 storage.googleapis.com
 runs/*
 data/*
-!data/ccpd_base/ccpd_base.yaml
-!data/images/zidane.jpg
-!data/images/bus.jpg
-!data/coco.names
-!data/coco_paper.names
-!data/coco.data
-!data/coco_*.data
-!data/coco_*.txt
-!data/trainvalno5k.shapes
-!data/*.sh
+
 
 pycocotools/*
 results*.txt
