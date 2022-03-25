@@ -25,7 +25,8 @@
 
 storage.googleapis.com
 runs/*
-data/*/*
+data/*
+!data/ccpd_base/ccpd_base.yaml
 !data/images/zidane.jpg
 !data/images/bus.jpg
 !data/coco.names
