@@ -13,7 +13,7 @@ from utils.general import check_img_size, check_requirements, check_imshow, non_
 from utils.plots import colors, plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
-from mobilenetv3 import get_label
+from LPRNet import get_label
 
 @torch.no_grad()
 def detect(opt):
@@ -40,7 +40,7 @@ def detect(opt):
         model.half()  # to FP16
 
     # Second-stage classifier
-    classify = True
+    classify = False
     if classify:
         modelc = load_classifier(name='resnet101', n=2)  # initialize
         modelc.load_state_dict(torch.load('/home/cuckoo/.cache/torch/hub/checkpoints/resnet101-63fe2227.pth', map_location=device)['model']).to(device).eval()
@@ -112,7 +112,7 @@ def detect(opt):
                         c = int(cls)  # integer class
                         if opt.save_crop:
                             crop_img = save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
-                            label = get_label('weights/epoch194.pkl', crop_img)
+                            label = get_label('weights/LPRNet__iteration_2000.pth', crop_img)
 
                         plot_one_box(xyxy, im0, label=label, color=colors(c, True), line_thickness=opt.line_thickness)
 
@@ -152,8 +152,8 @@ def detect(opt):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', nargs='+', type=str, default='yolov5s.pt', help='model.pt path(s)')
-    parser.add_argument('--source', type=str, default='data/images', help='source')  # file/folder, 0 for webcam
+    parser.add_argument('--weights', nargs='+', type=str, default='weights/YOLOV5BEST.pt', help='model.pt path(s)')
+    parser.add_argument('--source', type=str, default='data/YOLO_CCPD/ccpd_base/images/val/', help='source')  # file/folder, 0 for webcam
     parser.add_argument('--img-size', type=int, default=640, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.25, help='object confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.45, help='IOU threshold for NMS')
@@ -162,7 +162,7 @@ if __name__ == '__main__':
     parser.add_argument('--view-img', action='store_true', help='display results')
     parser.add_argument('--save-txt', action='store_true', help='save results to *.txt')
     parser.add_argument('--save-conf', action='store_true', help='save confidences in --save-txt labels')
-    parser.add_argument('--save-crop', action='store_true', help='save cropped prediction boxes')
+    parser.add_argument('--save-crop', default=True, action='store_true', help='save cropped prediction boxes')
     parser.add_argument('--nosave', action='store_true', help='do not save images/videos')
     parser.add_argument('--classes', nargs='+', type=int, help='filter by class: --class 0, or --class 0 2 3')
     parser.add_argument('--agnostic-nms', action='store_true', help='class-agnostic NMS')

@@ -11,7 +11,14 @@ python3 train.py --data data/ER/ER.yaml --batch-size 6 --epochs 20
 
 python3.8 train.py --weights "runs/train/exp4/weights/best.pt" --data data/ER/ER.yaml --batch-size 6
 
-python3 detect-m-copy.py --weights /home/cuckoo/Public/WDisk/Yolov5-ER/runs/train/exp35/weights/best.pt --source /home/cuckoo/Public/WDisk/Yolov5-ER/data/YOLO_CCPD/ccpd_base/images/val/ --save-crop
+python3 detect-m-copy.py --weights /home/cuckoo/Public/WDisk/Yolov5-ER/runs/train/exp35/weights/best.pt --source /home/cuckoo/Public/WDisk/Yolov5-ER/data/YOLO_CCPD/ccpd_base/images/val/ 
+
+
+## 4月1日更新
+
+正确放置数据集后运行 python  detect-m-copy.py 即可
+
+
 
 # 视频检测
 python detect.py --weights "/home/cuckoo/Public/WDisk/Yolov5-ER/runs/train/exp35/weights/best.pt" --source "/home/cuckoo/Public/WDisk/Yolov5-ER/data/YOLO_CCPD/ccpd_base/images/val/" --save-crop

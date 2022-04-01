@@ -426,6 +426,8 @@ def get_label(model_path, crop_img):
         net.eval()
         with torch.no_grad():
             y_pred, ouput = net(crop_img.cuda())
+
+            
         return vec2text(ouput)
 
     # transform = transforms.Compose([transforms.ToTensor()]) 
@@ -436,3 +438,62 @@ def get_label(model_path, crop_img):
         pre = predict(img)
 
     return pre
+
+
+class LPRDataLoader(Dataset):
+    def __init__(self, img_dir, imgSize, lpr_max_len, PreprocFun=None):
+        self.img_dir = img_dir
+        self.img_paths = []
+        for i in range(len(img_dir)):
+            self.img_paths += [el for el in paths.list_images(img_dir[i])]
+        random.shuffle(self.img_paths)
+        self.img_size = imgSize
+        self.lpr_max_len = lpr_max_len
+        if PreprocFun is not None:
+            self.PreprocFun = PreprocFun
+        else:
+            self.PreprocFun = self.transform
+
+    def __len__(self):
+        return len(self.img_paths)
+
+    def __getitem__(self, index):
+        filename = self.img_paths[index]
+        Image = cv2.imread(filename)
+        height, width, _ = Image.shape
+        if height != self.img_size[1] or width != self.img_size[0]:
+            Image = cv2.resize(Image, self.img_size)
+        Image = self.PreprocFun(Image)
+
+        basename = os.path.basename(filename)
+        imgname, suffix = os.path.splitext(basename)
+        imgname = imgname.split(".")[0]
+        # imgname = imgname.split(".")[0].split("_")[0]
+        label = list()
+        for c in imgname:
+            # one_hot_base = np.zeros(len(CHARS))
+            # one_hot_base[CHARS_DICT[c]] = 1
+            label.append(CHARS_DICT[c])
+
+        if len(label) == 8:
+            if self.check(label) == False:
+                print(imgname)
+                assert 0, "Error label ^~^!!!"
+
+        return Image, label, len(label)
+
+    def transform(self, img):
+        img = img.astype('float32')
+        img -= 127.5
+        img *= 0.0078125
+        img = np.transpose(img, (2, 0, 1))
+
+        return img
+
+    def check(self, label):
+        if label[2] != CHARS_DICT['D'] and label[2] != CHARS_DICT['F'] \
+                and label[-1] != CHARS_DICT['D'] and label[-1] != CHARS_DICT['F']:
+            print("Error label, Please check!")
+            return False
+        else:
+            return True
