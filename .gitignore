@@ -27,6 +27,7 @@ storage.googleapis.com
 runs/*
 data/*
 
+!weights
 !weights/LPRNet__iteration_2000.pth
 !weights/YOLOV5BEST.pt
 
