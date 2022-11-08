@@ -3,15 +3,14 @@ nvidia-docker run -itd --init --gpus all --volume="/home/sakura/文档/GitHub/Yo
 # 训练
 
 python3 train.py --weights "" --cfg models/yolov5s.yaml --data data/exp1/exp1.yaml --batch-size 6 --epochs 5000 --workers 2
-python train.py --weights /home/cuckoo/Public/WDisk/Yolov5-ER/runs/train/exp39/weights/last.pt --cfg models/yolov5s.yaml --data data/YOLO_CCPD/ccpd_base/ccpd_base.yaml --batch-size 24 --epochs 20 --workers 6
+python train.py --weights /home/cuckoo/Public/WDisk/Yolov5-ER/runs/train/exp35/weights/last.pt --cfg models/yolov5s.yaml --data data/YOLO_CCPD/ccpd_base/ccpd_base.yaml --batch-size 24 --epochs 20 --workers 6
 python train.py --weights /home/cuckoo/Public/WDisk/Yolov5-ER/yolov5s.pt --cfg models/yolov5s.yaml --data data/YOLO_CCPD/ccpd_base/ccpd_base.yaml --batch-size 24 --epochs 100 --workers 6
-
 
 python3 train.py --data data/ER/ER.yaml --batch-size 6 --epochs 20
 
 python3.8 train.py --weights "runs/train/exp4/weights/best.pt" --data data/ER/ER.yaml --batch-size 6
 
-python3 detect-m-copy.py --weights /home/cuckoo/Public/WDisk/Yolov5-ER/runs/train/exp35/weights/best.pt --source /home/cuckoo/Public/WDisk/Yolov5-ER/data/YOLO_CCPD/ccpd_base/images/val/ 
+python3 detect-m-copy.py --weights /home/cuckoo/Public/WDisk/Yolov5-ER/runs/train/exp35/weights/best.pt --source /home/cuckoo/Public/WDisk/Yolov5-ER/data/YOLO_CCPD/ccpd_weather/ 
 
 
 ## 4月1日更新

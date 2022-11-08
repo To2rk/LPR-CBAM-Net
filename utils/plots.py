@@ -74,13 +74,26 @@ def plot_one_box(x, im, color=(128, 128, 128), label=None, line_thickness=3):
     tl = line_thickness or round(0.002 * (im.shape[0] + im.shape[1]) / 2) + 1  # line/font thickness
     c1, c2 = (int(x[0]), int(x[1])), (int(x[2]), int(x[3]))
     cv2.rectangle(im, c1, c2, color, thickness=tl, lineType=cv2.LINE_AA)
+    # if label:
+    #     tf = max(tl - 1, 1)  # font thickness
+    #     t_size = cv2.getTextSize(label, 0, fontScale=tl / 3, thickness=tf)[0]
+    #     c2 = c1[0] + t_size[0], c1[1] - t_size[1] - 3
+    #     cv2.rectangle(im, c1, c2, color, -1, cv2.LINE_AA)  # filled
+    #     cv2.putText(im, label, (c1[0], c1[1] - 2), 0, tl / 3, [225, 255, 255], thickness=tf, lineType=cv2.LINE_AA, font=font)
+
     if label:
         tf = max(tl - 1, 1)  # font thickness
         t_size = cv2.getTextSize(label, 0, fontScale=tl / 3, thickness=tf)[0]
-        c2 = c1[0] + t_size[0], c1[1] - t_size[1] - 3
+        font_size = t_size[1]
+        font = ImageFont.truetype('simsun.ttc', font_size)
+        t_size = font.getsize(label)
+        c2 = c1[0] + t_size[0], c1[1] - t_size[1]
         cv2.rectangle(im, c1, c2, color, -1, cv2.LINE_AA)  # filled
-        cv2.putText(im, label, (c1[0], c1[1] - 2), 0, tl / 3, [225, 255, 255], thickness=tf, lineType=cv2.LINE_AA)
+        img_PIL = Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
+        draw = ImageDraw.Draw(img_PIL)
+        draw.text((c1[0], c2[1] - 2), label, fill=(255, 255, 255), font=font)
 
+        return cv2.cvtColor(np.array(img_PIL), cv2.COLOR_RGB2BGR)
 
 def plot_one_box_PIL(box, im, color=(128, 128, 128), label=None, line_thickness=None):
     # Plots one bounding box on image 'im' using PIL
@@ -89,7 +102,7 @@ def plot_one_box_PIL(box, im, color=(128, 128, 128), label=None, line_thickness=
     line_thickness = line_thickness or max(int(min(im.size) / 200), 2)
     draw.rectangle(box, width=line_thickness, outline=color)  # plot
     if label:
-        font = ImageFont.truetype("Arial.ttf", size=max(round(max(im.size) / 40), 12))
+        font = ImageFont.truetype("/home/cuckoo/Public/WDisk/Yolov5-ER/utils/arial.ttf", size=max(round(max(im.size) / 40), 12))
         txt_width, txt_height = font.getsize(label)
         draw.rectangle([box[0], box[1] - txt_height + 4, box[0] + txt_width, box[1]], fill=color)
         draw.text((box[0], box[1] - txt_height + 1), label, fill=(255, 255, 255), font=font)
@@ -183,7 +196,7 @@ def plot_images(images, targets, paths=None, fname='images.jpg', names=None, max
                 cls = names[cls] if names else cls
                 if labels or conf[j] > 0.25:  # 0.25 conf thresh
                     label = '%s' % cls if labels else '%s %.1f' % (cls, conf[j])
-                    plot_one_box(box, mosaic, label=label, color=color, line_thickness=tl)
+                    mosaic = plot_one_box(box, mosaic, label=label, color=color, line_thickness=tl)
 
         # Draw image filename labels
         if paths:

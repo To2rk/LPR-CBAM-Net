@@ -12,6 +12,8 @@ import time
 from itertools import repeat
 from multiprocessing.pool import ThreadPool
 from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont
+
 
 import cv2
 import numpy as np
