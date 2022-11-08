@@ -198,22 +198,37 @@ class MyDataset(Dataset):
     def __init__(self, crop_img, transform=None):
         super(Dataset, self).__init__()
 
-        self.transform = transforms.Compose([
-            transforms.ToPILImage(),
-            transforms.Resize([24, 94]),
-            transforms.ToTensor(),    
-        ])
+        # self.transform = transforms.Compose([
+        #     transforms.ToPILImage(),
+        #     transforms.Resize([24, 94]),
+        #     transforms.ToTensor(),    
+        # ])
         self.crop_img = crop_img
+        self.PreprocFun = self.transform_s
         
     def __len__(self):
         return 1
 
     def __getitem__(self, index):
 
-        if self.transform is not None:
-            img = self.transform(self.crop_img)
+        Image = cv2.resize(self.crop_img, [94,24])
+        img = self.PreprocFun(Image)
+
+        # if self.transform is not None:
+            # img = self.transform(self.crop_img)
 
         return img
+
+    def transform_s(self, img):
+        # img = img.permute(1, 2, 0)
+        img = img.astype('float32')
+        img -= 127.5
+        img *= 0.0078125
+        img = np.transpose(img, (2, 0, 1))
+        # img = img.permute(2, 0, 1)
+
+        return img
+
 
 def predict(crop_img):
     net.eval()
@@ -228,7 +243,7 @@ def get_label(model_path, crop_img):
         net.load_state_dict(torch.load(model_path))
 
     # transform = transforms.Compose([transforms.ToTensor()]) 
-    vil_data = MyDataset(crop_img)
+    vil_data = MyDataset(crop_img, transform=True)
     vil_data_loader = DataLoader(vil_data, batch_size=1, num_workers=4, shuffle=True)
 
 

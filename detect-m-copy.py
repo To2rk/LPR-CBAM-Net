@@ -13,7 +13,18 @@ from utils.general import check_img_size, check_requirements, check_imshow, non_
 from utils.plots import colors, plot_one_box, plot_one_box_PIL
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
-from LPRNet import get_label
+from LPRNet import get_label, vec2text
+
+
+provNum, alphaNum, adNum = 38, 25, 35
+provinces = ["皖", "沪", "津", "渝", "冀", "晋", "蒙", "辽", "吉", "黑", "苏", "浙", "京", "闽", "赣", "鲁", "豫", "鄂", "湘", "粤",
+                "桂",
+                "琼", "川", "贵", "云", "藏", "陕", "甘", "青", "宁", "新", "警", "学", "O"]
+alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+                'W',
+                'X', 'Y', 'Z', 'O']
+ads = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+        'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'O']
 
 @torch.no_grad()
 def detect(opt):
@@ -54,6 +65,10 @@ def detect(opt):
     else:
         dataset = LoadImages(source, img_size=imgsz, stride=stride)
 
+    label_true_all = []
+    label_pred_all = []
+    # correct_total = 0
+    
     # Run inference
     if device.type != 'cpu':
         model(torch.zeros(1, 3, imgsz, imgsz).to(device).type_as(next(model.parameters())))  # run once
@@ -112,7 +127,20 @@ def detect(opt):
                         c = int(cls)  # integer class
                         if opt.save_crop:
                             crop_img = save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
-                            label = get_label('weights/LPRNet__iteration_2000.pth', crop_img)
+                            label = get_label('weights/Final_LPRNet_model.pth', crop_img)
+
+                            # img_name例如025-95_113-154&383_386&473-386&473_177&454_154&383_363&402-0_0_22_27_27_33_16-37-15.jpg
+                            label_true = p.stem.split('-')[-3].split('_')      # 对应车牌号(0_0_22_27_27_33_16)
+                            label_true = list(map(int, label_true))
+
+                            lpn = provinces[label_true[0]] + alphabets[label_true[1]] + ads[label_true[2]] + ads[label_true[3]] + ads[
+                                label_true[4]] + ads[label_true[5]] + ads[label_true[6]]
+
+                            # if label == lpn:
+                            #     correct_total = correct_total + 1
+
+                            label_true_all.append(lpn)
+                            label_pred_all.append(label)
 
                         im0 = plot_one_box(xyxy, im0, label=label, color=colors(c, True), line_thickness=opt.line_thickness)
 
@@ -143,6 +171,25 @@ def detect(opt):
                         vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
                     vid_writer.write(im0)
 
+    import numpy as np
+    label_true_all = np.array(label_true_all)
+    label_pred_all = np.array(label_pred_all)
+    correct = sum(label_true_all == label_pred_all)
+
+    total = len(dataset)
+    # correct = (label_true_all == label_pred_all).sum().float()
+    detected_box = len(label_true_all)
+
+    test_acc = correct / detected_box
+    # test_acc_1 = correct_total / total
+
+    print("total: ", total)
+    print("detected_box: ", detected_box)
+    print("correct: ", correct)
+    print("test acc: ", test_acc)
+    # print("correct_total: ", correct_total)
+    # print("test acc_1: ", test_acc_1)
+
     if save_txt or save_img:
         s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt else ''
         print(f"Results saved to {save_dir}{s}")
@@ -151,14 +198,18 @@ def detect(opt):
 
 
 if __name__ == '__main__':
+
+    time.sleep(13000)
+
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', nargs='+', type=str, default='weights/YOLOV5BEST.pt', help='model.pt path(s)')
-    parser.add_argument('--source', type=str, default='data/YOLO_CCPD/ccpd_base/images/val/', help='source')  # file/folder, 0 for webcam
+    parser.add_argument('--weights', nargs='+', type=str, default='/home/cuckoo/Public/WDisk/Yolov5-ER/runs/train/exp35/weights/best.pt', help='model.pt path(s)')
+    parser.add_argument('--source', type=str, default='/home/cuckoo/Public/WDisk/Yolov5-ER/data/YOLO_CCPD/ccpd_base/images/val/', help='source')  # file/folder, 0 for webcam
+    # parser.add_argument('--source', type=str, default='/home/cuckoo/Public/WDisk/Yolov5-ER/data/YOLO_CCPD/CCPD2019/base2019_snow/', help='source')  # file/folder, 0 for webcam
     parser.add_argument('--img-size', type=int, default=640, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.25, help='object confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.45, help='IOU threshold for NMS')
     parser.add_argument('--max-det', type=int, default=1000, help='maximum number of detections per image')
-    parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
+    parser.add_argument('--device', default='0', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     parser.add_argument('--view-img', action='store_true', help='display results')
     parser.add_argument('--save-txt', action='store_true', help='save results to *.txt')
     parser.add_argument('--save-conf', action='store_true', help='save confidences in --save-txt labels')
