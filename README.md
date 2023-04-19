@@ -32,8 +32,8 @@ LPR-Attention-Recognition/
       -- CCPD
         --- ccpd_base
           ---- train
-            ***** 川A6K0V3.0.jpg       # 表示车牌为 川A6K0V3 的第1张车牌
-            ***** 川A6K0V3.1.jpg       # 表示车牌为 川A6K0V3 的第2张车牌
+            ***** 皖AVS180.0.jpg       # 表示车牌为 皖AVS180 的第1张车牌
+            ***** 皖AVS180.1.jpg       # 表示车牌为 皖AVS180 的第2张车牌
             ***** 皖NW905J.0.jpg
             ***** 甘AA1086.0.jpg
           ---- test

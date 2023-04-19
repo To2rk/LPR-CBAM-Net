@@ -36,9 +36,23 @@ results*.txt
 gcp_test*.sh
 
 # Datasets -------------------------------------------------------------------------------------------------------------
-coco/
-coco128/
-VOC/
+
+## CCPD/ccpd_base/train
+!LPR-Attention-Recognition/data/CCPD/ccpd_base/train/川A6K0V3.0.jpg
+!LPR-Attention-Recognition/data/CCPD/ccpd_base/train/皖AMF109.0.jpg
+!LPR-Attention-Recognition/data/CCPD/ccpd_base/train/皖NW905J.0.jpg
+!LPR-Attention-Recognition/data/CCPD/ccpd_base/train/甘AA1086.0.jpg
+!LPR-Attention-Recognition/data/CCPD/ccpd_base/train/皖AV520B.0.jpg
+!LPR-Attention-Recognition/data/CCPD/ccpd_base/train/皖AVS180.0.jpg
+!LPR-Attention-Recognition/data/CCPD/ccpd_base/train/皖AVS180.1.jpg
+
+
+## CCPD/ccpd_base/test
+!LPR-Attention-Recognition/data/CCPD/ccpd_base/test/皖AM9V86.0.jpg
+!LPR-Attention-Recognition/data/CCPD/ccpd_base/test/川AX0Z19.0.jpg
+!LPR-Attention-Recognition/data/CCPD/ccpd_base/test/川AX0Z19.1.jpg
+!LPR-Attention-Recognition/data/CCPD/ccpd_base/test/川FNH603.0.jpg
+!LPR-Attention-Recognition/data/CCPD/ccpd_base/test/川RFF054.0.jpg
 
 # MATLAB GitIgnore -----------------------------------------------------------------------------------------------------
 *.m~
