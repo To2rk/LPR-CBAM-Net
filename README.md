@@ -42,21 +42,22 @@ Yolov5-Attention-Detection/
 
 ```
 
-- **训练**
+### **训练**
 
 ```bash
-cd Yolov5-Attention-Detection/
-python train.py --data data/YOLO_CCPD/ccpd_base/ccpd_base.yaml --weights weights/yolov5s.pt  
+cd Yolov5_Attention_Detection/
+python train.py --data data/YOLO_CCPD/ccpd_base/ccpd_base.yaml --weights weights/yolo/yolov5s.pt  
 ```
 
-- **测试**
+### **测试**
 
 ```bash
-cd Yolov5-Attention-Detection/
-python test.py --data data/YOLO_CCPD/ccpd_base/ccpd_base.yaml --weights weights/yolov5s.pt
+cd Yolov5_Attention_Detection/
+python test.py --data data/YOLO_CCPD/ccpd_base/ccpd_base.yaml --weights weights/yolo/yolov5s.pt
 ```
 
 ## **2. 识别模块**
+
 **LPR-Attention-Recognition**
 
 ### **数据集**
@@ -91,22 +92,95 @@ LPR-Attention-Recognition/
 
 ```
 
-- **训练**
+### **训练**
 
 正确放置数据集后，开始训练
 
 ```bash
-cd LPR-Attention-Recognition/
+cd LPR_Attention_Recognition/
 python train.py
 # 训练好的权重存放在 weight/ 目录
 ```
 
-- **测试**
+### **测试**
 
 ```bash
-cd LPR-Attention-Recognition/
-python test.py --pretrained_model ./weight/LPRAtt_iteration_2000.pth
+cd LPR_Attention_Recognition/
+python test.py --pretrained_model ./weight/LPRAtt_iteration_2000.pth 
 # 使用训练好的权重进行推理预测
 ```
 
+## **3. 检测车牌并识别**
 
+- 图片
+
+```bash
+python detect_recognize.py --weights ./weights/yolo/best.pt --source ./data/YOLO_CCPD/ccpd_base/images/val/
+```
+
+- 视频
+
+```bash
+python detect_recognize.py --weights ./weights/yolo/best.pt --source ./data/YOLO_CCPD/ccpd_base/images/val/1.mp4
+```
+
+## **4. 自定义数据集**
+
+(1) 合并数据（不同分辨率合并）
+
+ - 将img和xml文件复制到data/temp目录
+ * 执行 Scripts/merge.sh 两次，先合并img，再合并xml
+
+ **获得了所有的img和xml**
+
+(2) 检查img和xml是否对应
+
+  - 执行 Scripts/check.sh ，注意执行两次
+
+ **获得了所有的img和xml，并且一一对应**
+
+(3) 压缩图像，并放到指定文件夹
+
+  创建目录结构如下
+        - data/plate/exp1/
+          - img
+          - label
+          - txt
+          - xml
+
+ - 执行 Scripts/prePics.py，按上述目录更改好目录参数
+ - 将所有的xml也复制到 data/plate/exp1/xml下
+
+ **获得了压缩后的图片和所有的xml，以及随机分割的数据集**
+
+(4) 获得训练数据
+
+  创建目录结构如下
+        - data/exp1/
+          - images
+            - train
+            - val
+          - labels
+            - train
+            - val
+
+  - 执行 Scripts/make_dataset.py，注意修改路径的地方有九个
+
+ **获得了可用于训练的数据集**
+
+(5) 创建 data/exp1/exp1.yaml
+
+(6) 训练
+
+(7) 一些可能用到的命令
+
+```bash
+# 复制时以时间命名
+cp -r old copy_test/new_`date '+%Y%m%d_%H.%M.%S'`
+
+# 批量重命名，在需要重命名的目录下执行
+i=1; for x in *; do mv $x $i.jpg; let i=i+1; done
+
+#随机移动指定数量的文件到指定目录
+shuf -n 10 -e * | xargs -i mv {} path-to-new-folder
+```
