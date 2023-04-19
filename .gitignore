@@ -19,13 +19,15 @@
 *.avi
 *.data
 *.json
+*.txt
+*.xml
 
 *.cfg
 !cfg/yolov3*.cfg
 
 storage.googleapis.com
-runs/*
-data/*
+Yolov5-Attention-Detection/runs/*
+Yolov5-Attention-Detection/data/*
 
 !weights/*
 !weights/LPRNet__iteration_2000.pth
@@ -45,7 +47,6 @@ gcp_test*.sh
 !LPR-Attention-Recognition/data/CCPD/ccpd_base/train/皖AV520B.0.jpg
 !LPR-Attention-Recognition/data/CCPD/ccpd_base/train/皖AVS180.0.jpg
 !LPR-Attention-Recognition/data/CCPD/ccpd_base/train/皖AVS180.1.jpg
-
 
 ## CCPD/ccpd_base/test
 !LPR-Attention-Recognition/data/CCPD/ccpd_base/test/皖AM9V86.0.jpg

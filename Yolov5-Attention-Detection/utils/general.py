@@ -173,7 +173,6 @@ def check_imshow():
         print(f'WARNING: Environment does not support cv2.imshow() or PIL Image.show() image displays\n{e}')
         return False
 
-
 def check_file(file):
     # Search for file if not found
     if Path(file).is_file() or file == '':
