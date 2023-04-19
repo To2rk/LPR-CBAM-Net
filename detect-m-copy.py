@@ -199,7 +199,7 @@ def detect(opt):
 
 if __name__ == '__main__':
 
-    time.sleep(13000)
+    # time.sleep(13000)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default='/home/cuckoo/Public/WDisk/Yolov5-ER/runs/train/exp35/weights/best.pt', help='model.pt path(s)')
