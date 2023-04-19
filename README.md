@@ -45,13 +45,14 @@ Yolov5-Attention-Detection/
 - **训练**
 
 ```bash
+cd Yolov5-Attention-Detection/
 python train.py --data data/YOLO_CCPD/ccpd_base/ccpd_base.yaml --weights weights/yolov5s.pt  
-
 ```
 
 - **测试**
 
 ```bash
+cd Yolov5-Attention-Detection/
 python test.py --data data/YOLO_CCPD/ccpd_base/ccpd_base.yaml --weights weights/yolov5s.pt
 ```
 
@@ -95,6 +96,7 @@ LPR-Attention-Recognition/
 正确放置数据集后，开始训练
 
 ```bash
+cd LPR-Attention-Recognition/
 python train.py
 # 训练好的权重存放在 weight/ 目录
 ```
@@ -102,6 +104,7 @@ python train.py
 - **测试**
 
 ```bash
+cd LPR-Attention-Recognition/
 python test.py --pretrained_model ./weight/LPRAtt_iteration_2000.pth
 # 使用训练好的权重进行推理预测
 ```

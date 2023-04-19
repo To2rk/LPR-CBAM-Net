@@ -21,6 +21,7 @@
 *.json
 *.txt
 *.xml
+*.cache
 
 *.cfg
 !cfg/yolov3*.cfg
@@ -28,6 +29,7 @@
 storage.googleapis.com
 Yolov5-Attention-Detection/runs/*
 Yolov5-Attention-Detection/data/*
+!Yolov5-Attention-Detection/data/YOLO_CCPD
 
 !weights/*
 !weights/LPRNet__iteration_2000.pth
@@ -39,7 +41,32 @@ gcp_test*.sh
 
 # Datasets -------------------------------------------------------------------------------------------------------------
 
-## CCPD/ccpd_base/train
+## Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/images/train
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/images/train/01-86_91-298&341_449&414-458&394_308&410_304&357_454&341-0_0_14_28_24_26_29-124-24.jpg
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/images/train/01-89_90-302&482_487&539-497&538_295&550_294&490_496&478-0_0_30_25_29_31_24-130-26.jpg
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/images/train/0116127873564-90_91-366&550_554&621-563&618_372&615_376&552_567&555-0_0_2_2_27_30_24-90-21.jpg
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/images/train/0116127873564-90_88-284&485_480&550-489&542_294&550_279&483_474&475-0_0_19_30_33_30_26-122-33.jpg
+
+## Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/images/val
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/images/val/01-90_85-274&361_472&420-475&416_277&422_271&357_469&351-0_0_25_29_33_26_30-165-31.jpg
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/images/val/021875-85_94-268&364_483&464-493&435_271&459_276&373_498&349-0_0_24_24_2_27_25-138-17.jpg
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/images/val/019375-90_88-223&491_503&573-503&575_225&570_225&493_503&498-0_0_15_24_17_32_33-104-30.jpg
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/images/val/020625-89_89-204&468_487&544-499&548_191&556_197&464_505&456-0_0_15_27_25_33_31-147-44.jpg
+
+## Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/labels/train
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/labels/train/01-86_91-298&341_449&414-458&394_308&410_304&357_454&341-0_0_14_28_24_26_29-124-24.txt
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/labels/train/01-89_90-302&482_487&539-497&538_295&550_294&490_496&478-0_0_30_25_29_31_24-130-26.txt
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/labels/train/0116127873564-90_91-366&550_554&621-563&618_372&615_376&552_567&555-0_0_2_2_27_30_24-90-21.txt
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/labels/train/0116127873564-90_88-284&485_480&550-489&542_294&550_279&483_474&475-0_0_19_30_33_30_26-122-33.txt
+
+## Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/labels/test
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/labels/test/01-90_85-274&361_472&420-475&416_277&422_271&357_469&351-0_0_25_29_33_26_30-165-31.txt
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/labels/test/021875-85_94-268&364_483&464-493&435_271&459_276&373_498&349-0_0_24_24_2_27_25-138-17.txt
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/labels/test/019375-90_88-223&491_503&573-503&575_225&570_225&493_503&498-0_0_15_24_17_32_33-104-30.txt
+!Yolov5-Attention-Detection/data/YOLO_CCPD/ccpd_base/labels/test/020625-89_89-204&468_487&544-499&548_191&556_197&464_505&456-0_0_15_27_25_33_31-147-44.txt
+
+# ----------------------------------
+## LPR-Attention-Recognition/CCPD/ccpd_base/train
 !LPR-Attention-Recognition/data/CCPD/ccpd_base/train/川A6K0V3.0.jpg
 !LPR-Attention-Recognition/data/CCPD/ccpd_base/train/皖AMF109.0.jpg
 !LPR-Attention-Recognition/data/CCPD/ccpd_base/train/皖NW905J.0.jpg
@@ -48,7 +75,7 @@ gcp_test*.sh
 !LPR-Attention-Recognition/data/CCPD/ccpd_base/train/皖AVS180.0.jpg
 !LPR-Attention-Recognition/data/CCPD/ccpd_base/train/皖AVS180.1.jpg
 
-## CCPD/ccpd_base/test
+## LPR-Attention-Recognition/CCPD/ccpd_base/test
 !LPR-Attention-Recognition/data/CCPD/ccpd_base/test/皖AM9V86.0.jpg
 !LPR-Attention-Recognition/data/CCPD/ccpd_base/test/川AX0Z19.0.jpg
 !LPR-Attention-Recognition/data/CCPD/ccpd_base/test/川AX0Z19.1.jpg
